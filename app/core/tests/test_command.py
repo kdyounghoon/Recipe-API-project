@@ -5,14 +5,14 @@ from django.db.utils import OperationalError
 from django.test import SimpleTestCase
 
 @patch('core.management.commands.wait_for_db.Command.check')
-class ComandTests(SimpleTestCase):
+class CommandTests(SimpleTestCase):
     """Test Commands."""
 
     def test_wait_for_db_ready(self, patched_check):
         """Test waiting for database if database ready."""
         patched_check.return_value = True
         call_command('wait_for_db')
-        patched_check.assert_called_once_with(databse=['default'])
+        patched_check.assert_called_once_with(databses=['default'])
 
     @patch('time.sleep')
     def test_wait_for_db_delay(self, patched_sleep, patched_check):
@@ -22,4 +22,4 @@ class ComandTests(SimpleTestCase):
     
         call_command('wait_for_db')
         self.assertEqual(patched_check.call_count, 6)
-        patched_check.assert_called_with(database=['default'])
+        patched_check.assert_called_with(databases=['default'])
